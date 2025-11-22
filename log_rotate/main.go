@@ -7,11 +7,12 @@ import (
 	"os"
 	"io"
 	"path/filepath"
+	"time"
 )
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Println("Usage: log_rotate <file> [file.tar.gz]")
+		fmt.Println("Usage: log_rotate <file>")
 		os.Exit(1)
 	}
 
@@ -44,6 +45,9 @@ func TarGzFile(inputPath, outputPath string) error {
 	if err != nil {
 		return err
 	}
+
+	dateTime := time.Now().Format("20060102-150405")
+	outputPath = inputPath + "_" + dateTime + ".tar.gz"
 
 	out, err := os.Create(outputPath)
 	if err != nil {
